@@ -366,11 +366,11 @@ impl<DB: Database> InnerEvmContext<DB> {
             return;
         }
 
-        if interpreter_result.output.len() > MAX_CODE_SIZE {
-            self.journaled_state.checkpoint_revert(journal_checkpoint);
-            interpreter_result.result = InstructionResult::CreateContractSizeLimit;
-            return;
-        }
+        // if interpreter_result.output.len() > MAX_CODE_SIZE {
+        //     self.journaled_state.checkpoint_revert(journal_checkpoint);
+        //     interpreter_result.result = InstructionResult::CreateContractSizeLimit;
+        //     return;
+        // }
 
         // deduct gas for code deployment.
         let gas_for_code = interpreter_result.output.len() as u64 * gas::CODEDEPOSIT;
