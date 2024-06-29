@@ -291,9 +291,11 @@ impl From<InstructionResult> for SuccessOrHalt {
             InstructionResult::OverflowPayment => Self::Halt(HaltReason::OverflowPayment), // Check for first call is done separately.
             InstructionResult::PrecompileError => Self::Halt(HaltReason::PrecompileError),
             InstructionResult::NonceOverflow => Self::Halt(HaltReason::NonceOverflow),
-            InstructionResult::CreateContractSizeLimit
-            | InstructionResult::CreateContractStartingWithEF => {
+            InstructionResult::CreateContractSizeLimit => {
                 Self::Halt(HaltReason::CreateContractSizeLimit)
+            }
+            InstructionResult::CreateContractStartingWithEF => {
+                Self::Halt(HaltReason::CreateContractStartingWithEF)
             }
             InstructionResult::CreateInitCodeSizeLimit => {
                 Self::Halt(HaltReason::CreateInitCodeSizeLimit)

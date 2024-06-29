@@ -87,6 +87,7 @@ pub fn call<SPEC: Spec, EXT, DB: Database>(
     context: &mut Context<EXT, DB>,
     inputs: Box<CallInputs>,
 ) -> Result<FrameOrResult, EVMError<DB::Error>> {
+    println!("Call {:?} depth:{:?}", inputs, context.evm.inner.journaled_state.depth());
     context.evm.make_call_frame(&inputs)
 }
 
@@ -96,6 +97,7 @@ pub fn call_return<EXT, DB: Database>(
     frame: Box<CallFrame>,
     interpreter_result: InterpreterResult,
 ) -> Result<CallOutcome, EVMError<DB::Error>> {
+    println!("Call return {:?} depth:{:?}", interpreter_result, context.evm.inner.journaled_state.depth());
     context
         .evm
         .call_return(&interpreter_result, frame.frame_data.checkpoint);
@@ -112,6 +114,7 @@ pub fn insert_call_outcome<EXT, DB: Database>(
     shared_memory: &mut SharedMemory,
     outcome: CallOutcome,
 ) -> Result<(), EVMError<DB::Error>> {
+    println!("Insert call outcome {:?} depth:{:?}", outcome, context.evm.inner.journaled_state.depth());
     context.evm.take_error()?;
     frame
         .frame_data_mut()

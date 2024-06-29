@@ -412,6 +412,7 @@ impl JournaledState {
     /// Makes a checkpoint that in case of Revert can bring back state to this point.
     #[inline]
     pub fn checkpoint(&mut self) -> JournalCheckpoint {
+        println!("checkpoint: {:?}", self.depth);
         let checkpoint = JournalCheckpoint {
             log_i: self.logs.len(),
             journal_i: self.journal.len(),
@@ -424,12 +425,14 @@ impl JournaledState {
     /// Commit the checkpoint.
     #[inline]
     pub fn checkpoint_commit(&mut self) {
+        println!("checkpoint commit: {:?}", self.depth);
         self.depth -= 1;
     }
 
     /// Reverts all changes to state until given checkpoint.
     #[inline]
     pub fn checkpoint_revert(&mut self, checkpoint: JournalCheckpoint) {
+        println!("checkpoint revert: {:?}", self.depth);
         let is_spurious_dragon_enabled = SpecId::enabled(self.spec, SPURIOUS_DRAGON);
         let state = &mut self.state;
         let transient_storage = &mut self.transient_storage;
